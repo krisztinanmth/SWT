@@ -96,6 +96,11 @@ public class SWTDynamicLayoutChanges {
 				}
 			});
 		}
+		/**
+		 * the requestLayout() method call on the Composite class triggers an asynchronous layout call
+		 * NOTE! the Composite widget defines also the layout() method which triggers a synchronous layout and
+		 * should be avoided
+		 */
 		Button removeButton = new Button(layer, SWT.PUSH);
 		removeButton.setText("remove");
 		removeButton.addSelectionListener(new SelectionAdapter() {
