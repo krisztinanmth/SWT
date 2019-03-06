@@ -67,9 +67,16 @@ public class FirstSWTApplication {
 		text.setBackground(display.getSystemColor(SWT.COLOR_DARK_GRAY));
 //		text.setForeground(display.getSystemColor(SWT.COLOR_WHITE));
 		
+		Text textTwo = new Text(shell, SWT.BOLD);
+		// SWT supports the display of Unicode characters... depending on your OS and default font you might 
+		// have to change the font of your control to a font that supports Unicode characters
+		textTwo.setFont(new Font(Display.getCurrent(), "Arial Unicode MS", 15, SWT.NORMAL));
+		textTwo.setText("follow your \u2764!");
+		
 		// set widgets size to their preferred size
-		text.pack();
 		label.pack();
+		labelTwo.pack();
+		text.pack();
 		
 		Button button = new Button(shell, SWT.PUSH);
 		button.setText("Click me");
@@ -85,6 +92,7 @@ public class FirstSWTApplication {
 		
 		// TODO add some widgets to the Shell
 		shell.open();
+		textTwo.setFocus();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();
