@@ -1,7 +1,10 @@
 package com.example.swt.widgets.plugin;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
@@ -32,6 +35,16 @@ public class FirstSWTApplication {
 		// set widgets size to their preferred size
 		text.pack();
 		label.pack();
+		
+		Button button = new Button(shell, SWT.PUSH);
+		
+		// register listener for the selection event
+		button.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Called!");
+			}
+		});
 		
 		// TODO add some widgets to the Shell
 		shell.open();
