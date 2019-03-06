@@ -3,6 +3,8 @@ package com.example.swt.widgets.plugin;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.FillLayout;
@@ -26,20 +28,30 @@ public class FirstSWTApplication {
 		shell.setLayout(new FillLayout());
 		
 		Label label = new Label(shell, SWT.BORDER);
+		Label labelTwo = new Label(shell, SWT.BORDER);
+		
+		// set custom colour in SWT
+		Device device = Display.getCurrent();
+		Color yellow = new Color(device, 242, 249, 37);
 		
 		// You can change the Font of text in SWT. You do this by creating a
 		// Font and then applying it to the desired control.
-		Font fontGeneral = new Font(label.getDisplay(), new FontData("Mono", 60, SWT.BOLD));
-		Font fontForText = new Font(label.getDisplay(), new FontData("Futura", 20, SWT.ITALIC));
+		Font fontGeneral = new Font(label.getDisplay(), new FontData("Mono", 15, SWT.BOLD));
+		Font fontForText = new Font(label.getDisplay(), new FontData("Futura", 15, SWT.ITALIC));
 		
 		label.setFont(fontGeneral);
-		label.setText("This is a label: ");
-		label.setToolTipText("This is the tooltip of this label");
+		label.setText("this is a label: ");
+		label.setToolTipText("this is the tooltip of this label");
+		
+		labelTwo.setText("this is the second label");
+		labelTwo.setFont(fontGeneral);
+		labelTwo.setBackground(display.getSystemColor(SWT.COLOR_BLACK));
+		labelTwo.setForeground(yellow);
 		
 		Text text = new Text(shell, SWT.NONE);
-		text.setText("This is the text in the text widget");
+		text.setText("this is the text in the text widget");
 		text.setFont(fontForText);
-		text.setBackground(display.getSystemColor(SWT.COLOR_BLACK));
+		text.setBackground(display.getSystemColor(SWT.COLOR_DARK_GRAY));
 //		text.setForeground(display.getSystemColor(SWT.COLOR_WHITE));
 		
 		// set widgets size to their preferred size
