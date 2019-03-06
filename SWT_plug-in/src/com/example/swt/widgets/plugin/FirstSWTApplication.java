@@ -37,20 +37,33 @@ public class FirstSWTApplication {
 		// You can change the Font of text in SWT. You do this by creating a
 		// Font and then applying it to the desired control.
 		Font fontGeneral = new Font(label.getDisplay(), new FontData("Mono", 15, SWT.BOLD));
-		Font fontForText = new Font(label.getDisplay(), new FontData("Futura", 15, SWT.ITALIC));
+//		Font fontForText = new Font(label.getDisplay(), new FontData("Futura", 15, SWT.ITALIC));
 		
 		label.setFont(fontGeneral);
 		label.setText("this is a label: ");
 		label.setToolTipText("this is the tooltip of this label");
 		
+		// to modify the current Font you can retrieve the FontData, change it and create a new Font from it
+		FontData fontData = label.getFont().getFontData()[0];
+		// we can change this since getFontData() creates a new FontData instance
+		fontData.setStyle(SWT.ITALIC);
+		
 		labelTwo.setText("this is the second label");
-		labelTwo.setFont(fontGeneral);
+		labelTwo.setFont(new Font(labelTwo.getDisplay(), fontData));
 		labelTwo.setBackground(display.getSystemColor(SWT.COLOR_BLACK));
 		labelTwo.setForeground(yellow);
 		
+		
 		Text text = new Text(shell, SWT.NONE);
+		// you can use custom fonts, to use a custom font you have to load it with the Display
+		// please remember that Fonts don’t get automatically disposed with the widget that uses them
+		boolean fontLoaded = Display.getDefault().loadFont("fonts/CustomFont.ttf");
+		if (fontLoaded) {
+			Font fontForText = new Font(Display.getDefault(), "Custom font", 12, SWT.NORMAL);
+			text.setFont(fontForText);
+		}
 		text.setText("this is the text in the text widget");
-		text.setFont(fontForText);
+//		text.setFont(fontForText);
 		text.setBackground(display.getSystemColor(SWT.COLOR_DARK_GRAY));
 //		text.setForeground(display.getSystemColor(SWT.COLOR_WHITE));
 		
