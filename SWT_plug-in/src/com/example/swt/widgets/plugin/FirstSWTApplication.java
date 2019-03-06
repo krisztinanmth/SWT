@@ -3,6 +3,8 @@ package com.example.swt.widgets.plugin;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
@@ -24,19 +26,29 @@ public class FirstSWTApplication {
 		shell.setLayout(new FillLayout());
 		
 		Label label = new Label(shell, SWT.BORDER);
+		
+		// You can change the Font of text in SWT. You do this by creating a
+		// Font and then applying it to the desired control.
+		Font fontGeneral = new Font(label.getDisplay(), new FontData("Mono", 60, SWT.BOLD));
+		Font fontForText = new Font(label.getDisplay(), new FontData("Futura", 20, SWT.ITALIC));
+		
+		label.setFont(fontGeneral);
 		label.setText("This is a label: ");
 		label.setToolTipText("This is the tooltip of this label");
 		
 		Text text = new Text(shell, SWT.NONE);
 		text.setText("This is the text in the text widget");
+		text.setFont(fontForText);
 		text.setBackground(display.getSystemColor(SWT.COLOR_BLACK));
-		text.setForeground(display.getSystemColor(SWT.COLOR_WHITE));
+//		text.setForeground(display.getSystemColor(SWT.COLOR_WHITE));
 		
 		// set widgets size to their preferred size
 		text.pack();
 		label.pack();
 		
 		Button button = new Button(shell, SWT.PUSH);
+		button.setText("Click me");
+		button.setFont(fontGeneral);
 		
 		// register listener for the selection event
 		button.addSelectionListener(new SelectionAdapter() {
