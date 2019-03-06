@@ -1,6 +1,7 @@
 package com.example.swt.widgets.plugin;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
@@ -35,6 +36,21 @@ public class GridLayoutSWT {
 		button.setText("click me");
 		
 		// create a new Label that will span two columns
+		label = new Label(shell, SWT.BORDER);
+		label.setText("this is a label");
+		
+		//create new layout data
+		GridData data = new GridData(SWT.FILL, SWT.TOP, true, false, 2, 1);
+		label.setLayoutData(data);
+		
+		// create new label which is used as a separator
+		label = new Label(shell, SWT.SEPARATOR | SWT.HORIZONTAL);
+		
+		// create new layout data
+		data = new GridData(SWT.FILL, SWT.TOP, true, false);
+		data.horizontalSpan = 2;
+		label.setLayoutData(data);
+		
 		
 	}
 
