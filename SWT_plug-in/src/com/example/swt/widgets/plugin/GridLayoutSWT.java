@@ -7,6 +7,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Spinner;
 
 /**
  * 
@@ -50,6 +51,27 @@ public class GridLayoutSWT {
 		data = new GridData(SWT.FILL, SWT.TOP, true, false);
 		data.horizontalSpan = 2;
 		label.setLayoutData(data);
+		
+		// create a right aligned button
+		Button buttonTwo = new Button(shell, SWT.PUSH);
+		buttonTwo.setText("new button");
+		
+		data = new GridData(SWT.LEFT, SWT.TOP, false, false, 2, 1);
+		buttonTwo.setLayoutData(data);
+		
+		// create a spinner with min value 0 and max value 100
+		Spinner spinner = new Spinner(shell, SWT.READ_ONLY);
+		spinner.setMinimum(0);
+		spinner.setMaximum(1000);
+		spinner.setSelection(500);
+		spinner.setIncrement(1);
+		spinner.setPageIncrement(100);
+		
+		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, false);
+		gridData.widthHint = SWT.DEFAULT;
+		gridData.heightHint = SWT.DEFAULT;
+		gridData.horizontalSpan = 2;
+		spinner.setLayoutData(gridData);
 		
 		
 	}
