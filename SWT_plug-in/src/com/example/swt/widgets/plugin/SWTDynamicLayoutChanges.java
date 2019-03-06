@@ -28,7 +28,7 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class SWTDynamicLayoutChanges {
 	
-	private static int number = 0;
+//	private static int number = 0;
 	private static List<Color> colors;
 	private static int colorIndex;
 
@@ -43,13 +43,12 @@ public class SWTDynamicLayoutChanges {
 		colors.add(Display.getDefault().getSystemColor(SWT.COLOR_DARK_GREEN));
 		colors.add(Display.getDefault().getSystemColor(SWT.COLOR_DARK_YELLOW));
 		colors.add(Display.getDefault().getSystemColor(SWT.COLOR_DARK_CYAN));
-		
+		colors.add(Display.getDefault().getSystemColor(SWT.COLOR_DARK_MAGENTA));
 		colors.add(new Color (Display.getDefault(), 122, 122, 122));
 		colors.add(new Color (Display.getDefault(), 255, 51, 227));
 		colors.add(new Color (Display.getDefault(), 27, 82, 255));
 		colors.add(new Color (Display.getDefault(), 240, 201, 27));
 		colors.add(new Color (Display.getDefault(), 188, 188, 188));
-		colors.add(Display.getDefault().getSystemColor(SWT.COLOR_DARK_MAGENTA));
 		
 		GridLayout gridLayout = new GridLayout(1, false);
 		gridLayout.marginWidth = 0;
@@ -118,6 +117,13 @@ public class SWTDynamicLayoutChanges {
 				parent.requestLayout();
 			}
 		});
+		
+		GridData d2 = new GridData(SWT.FILL, SWT.TOP, true, false);
+		layer.setLayoutData(d2);
+		if (colorIndex > colors.size() - 1) {
+			colorIndex = 0;
+		}
+		layer.setBackground(colors.get(colorIndex++));
 		
 		return layer;
 	}
