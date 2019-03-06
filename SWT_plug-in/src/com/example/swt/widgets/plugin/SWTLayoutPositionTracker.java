@@ -36,6 +36,9 @@ public class SWTLayoutPositionTracker {
 		positioningLabel.setBounds(x, y, width, height);
 		int toolbarSize = 30;
 		
+		/**
+		 * setBounds defines both position and size. you can also use setLocation and setSize to define the position
+		 */
 		shell.setBounds(200, 400, width + 2 * x, height + 2 * y + toolbarSize);
 		shell.open();
 		

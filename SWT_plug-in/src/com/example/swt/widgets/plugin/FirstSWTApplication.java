@@ -73,10 +73,16 @@ public class FirstSWTApplication {
 		textTwo.setFont(new Font(Display.getCurrent(), "Arial Unicode MS", 15, SWT.NORMAL));
 		textTwo.setText("follow your \u2764!");
 		
+		
+		/**
+		 * if you assign a layout manager to a control you do not have to call pack() anymore... 
+		 * the only case in which you need to call pack is, if a control has no layout
+		 */
 		// set widgets size to their preferred size
 		label.pack();
 		labelTwo.pack();
 		text.pack();
+		textTwo.pack();
 		
 		Button button = new Button(shell, SWT.PUSH);
 		button.setText("Click me");
