@@ -8,6 +8,7 @@ import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
@@ -95,6 +96,18 @@ public class FirstSWTApplication {
 				System.out.println("Called!");
 			}
 		});
+		
+		// in the following example you specify that the buttonTwo widget should take two columns in a GridLayout
+		/**
+		 * NOTE! the used layout data must match the layout manager, otherwise an exception is thrown at runtime
+		 */
+		Button buttonTwo = new Button(shell, SWT.PUSH);
+		GridData gridData = new GridData();
+		gridData.horizontalSpan = 2;
+		buttonTwo.setLayoutData(gridData);
+		buttonTwo.setText("i'm a button too \u0023");
+		buttonTwo.setFont(fontGeneral);
+		
 		
 		// TODO add some widgets to the Shell
 		shell.open();
