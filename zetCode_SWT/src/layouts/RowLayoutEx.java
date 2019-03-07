@@ -18,14 +18,19 @@ public class RowLayoutEx {
         
         Shell shell = new Shell(display, SWT.SHELL_TRIM | SWT.CENTER);
 
+        // A horizontal RowLayout is created. The widgets will be placed in a single row.
+        // The margins specify the space along the edges of the container.
+        // The spacing property specifies the space between the buttons.
         RowLayout rowLayout = new RowLayout(SWT.HORIZONTAL);
         rowLayout.marginTop = 10;
         rowLayout.marginBottom = 10;
         rowLayout.marginLeft = 5;
         rowLayout.marginRight = 5;
         rowLayout.spacing = 10;
+        // We specify the row layout to be the layout for the shell.
         shell.setLayout(rowLayout);
 
+        // A Button is created. The setLayoutData() specifies the dimensions of the button.
         Button btn1 = new Button(shell, SWT.PUSH);
         btn1.setText("Button");
         btn1.setLayoutData(new RowData(80, 30));
