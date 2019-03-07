@@ -6,11 +6,11 @@ import org.eclipse.swt.widgets.Shell;
 public class SimpleShell {
 	
 	private final int SIZE = 500;
+	Display display = new Display();
 	
 	
 	public SimpleShell() {
 
-		Display display = new Display();
 		Shell shell = new Shell(display);
 		shell.setSize(SIZE, SIZE);
 		
