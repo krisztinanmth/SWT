@@ -5,7 +5,22 @@ import org.eclipse.swt.widgets.Shell;
 
 public class SimpleShell {
 	
-	Display display = new Display();
-	Shell shell = new Shell(display);
+	private final int SIZE = 500;
+	
+	
+	public SimpleShell() {
+
+		Display display = new Display();
+		Shell shell = new Shell(display);
+		shell.setSize(SIZE, SIZE);
+		
+		shell.open();
+		while (!shell.isDisposed()) {
+			if (!display.readAndDispatch()) {
+				display.sleep();
+			}
+		}
+		display.dispose();
+	}
 
 }
