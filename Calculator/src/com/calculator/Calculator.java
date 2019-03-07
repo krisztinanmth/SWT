@@ -20,34 +20,35 @@ public class Calculator {
 		shell.setLayout(new GridLayout(1, true));
 		shell.setSize(300, 300);
 		
-		Composite editorComposite = new Composite(shell, SWT.NONE);
-		editorComposite.setLayout(new GridLayout(5, false));
+		Composite mainComposite = new Composite(shell, SWT.NONE);
+		mainComposite.setLayout(new GridLayout(5, false));
 		
-		Text textFirstNumber = new Text(editorComposite, SWT.BORDER);
+		Text textFirstNumber = new Text(mainComposite, SWT.BORDER);
 		
-		Button addButton = new Button(editorComposite, SWT.NONE); // SWT.DROP-DOWN
+		Button addButton = new Button(mainComposite, SWT.NONE); // SWT.DROP-DOWN
 		addButton.setText("+");
+//		Button drop_downButton = new Button(editorComposite, SWT.DROP_DOWN)
 		
-		Text textSecondNumber = new Text(editorComposite, SWT.BORDER);
+		Text textSecondNumber = new Text(mainComposite, SWT.BORDER);
 		
-		Label equalLabel = new Label(editorComposite, SWT.BORDER);
+		Label equalLabel = new Label(mainComposite, SWT.BORDER);
 		equalLabel.setText("=");
 		
-		Label resultLabel = new Label(editorComposite, SWT.BORDER_SOLID);
-		resultLabel.setText("-");
+		Label resultLabel = new Label(mainComposite, SWT.BORDER_SOLID);
+		resultLabel.setText("____________");
 		
-		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, false);
-		gridData.horizontalSpan = 2;
+//		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, false);
+//		gridData.horizontalSpan = 2;
 		
 		Button calculateButton = new Button(shell, SWT.PUSH);
-		calculateButton.setLayoutData(gridData);
+		calculateButton.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		calculateButton.setText("calculate result");
 		
 		calculateButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int result = Integer.parseInt(textFirstNumber.getText()) + Integer.parseInt(textSecondNumber.getText());
-//					System.out.println(Integer.parseInt(textFirstNumber.getText()) + Integer.parseInt(textSecondNumber.getText()));
+					System.out.println(Integer.parseInt(textFirstNumber.getText()) + Integer.parseInt(textSecondNumber.getText()));
 				resultLabel.setText(String.valueOf(result));
 			}
 		});
