@@ -14,19 +14,15 @@ import org.eclipse.swt.widgets.Text;
 
 public class Calculator {
 	
-	
-	
-	public static void main(String[] args) {
-
+	private static void createContent() {
 		Display display = new Display();
 		Shell shell = new Shell(display);
 		shell.setLayout(new GridLayout(1, true));
 		shell.setSize(300, 300);
 		
-//		Composite mainComposite = new Composite(shell, SWT.NONE);
 		Composite editorComposite = new Composite(shell, SWT.NONE);
 		editorComposite.setLayout(new GridLayout(5, false));
-					
+		
 		Text textFirstNumber = new Text(editorComposite, SWT.BORDER);
 		
 		Button addButton = new Button(editorComposite, SWT.NONE); // SWT.DROP-DOWN
@@ -42,7 +38,7 @@ public class Calculator {
 		
 		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, false);
 		gridData.horizontalSpan = 2;
-
+		
 		Button calculateButton = new Button(shell, SWT.PUSH);
 		calculateButton.setLayoutData(gridData);
 		calculateButton.setText("calculate result");
@@ -51,12 +47,12 @@ public class Calculator {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int result = Integer.parseInt(textFirstNumber.getText()) + Integer.parseInt(textSecondNumber.getText());
-//				System.out.println(Integer.parseInt(textFirstNumber.getText()) + Integer.parseInt(textSecondNumber.getText()));
+//					System.out.println(Integer.parseInt(textFirstNumber.getText()) + Integer.parseInt(textSecondNumber.getText()));
 				resultLabel.setText(String.valueOf(result));
 			}
 		});
 		
-//		shell.pack(); -> this is why the window was small
+//			shell.pack(); -> this is why the window was small
 		shell.open();
 		
 		while (!shell.isDisposed()) {
@@ -65,6 +61,13 @@ public class Calculator {
 			}
 		}
 		display.dispose();
+
+	}
+	
+	
+	
+	public static void main(String[] args) {
+		createContent();
 	}
 
 }
