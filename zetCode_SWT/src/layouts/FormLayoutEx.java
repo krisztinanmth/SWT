@@ -26,14 +26,14 @@ public class FormLayoutEx {
 		Button cancBtn = new Button(shell, SWT.PUSH);
 		cancBtn.setText("cancel");
 		
-		FormData cancelData = new FormData(80, 30);
-		cancelData.right = new FormAttachment(98);
-		cancelData.bottom = new FormAttachment(95);
+		FormData cancelData = new FormData(80, 30); // size of the cancel button -> 80 * 30
+		cancelData.right = new FormAttachment(98);	// right side of button is attached at 98% of the width of the window
+		cancelData.bottom = new FormAttachment(95);	// the bottom side of the button is attached at 95% of the height of the window
 		cancBtn.setLayoutData(cancelData);
 		
-		FormData okData = new FormData(80, 30);
-		okData.right = new FormAttachment(cancBtn, -5, SWT.LEFT);
-		okData.bottom = new FormAttachment(cancBtn, 0, SWT.BOTTOM);
+		FormData okData = new FormData(80, 30);	// size of OK Button -> 80 * 30;
+		okData.right = new FormAttachment(cancBtn, -5, SWT.LEFT);	// left side of OK btn goes 5 px to the left of cancBtn
+		okData.bottom = new FormAttachment(cancBtn, 0, SWT.BOTTOM);	// bottom side of Ok btn is aligned with the bottom of cancBtn
 		okBtn.setLayoutData(okData);
 		
 		shell.setText("Buttons");
