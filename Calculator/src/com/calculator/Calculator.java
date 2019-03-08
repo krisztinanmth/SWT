@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.Text;
 
 public class Calculator {
 	
-	static String error = "only numbers are expected";
+	static String error = "only numbers are accepted";
 	
 	enum Operator {
 		ADD("+"),
