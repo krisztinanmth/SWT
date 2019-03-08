@@ -56,28 +56,27 @@ public class Calculator {
 				int result = 0;
 				int firstNumber = Integer.parseInt(textFirstNumber.getText());
 				int secondNumber = Integer.parseInt(textSecondNumber.getText());
-				if (operator.equals("+"))
-					result = firstNumber + secondNumber;
-				else if (operator.equals("-"))
-					result = firstNumber - secondNumber;
-				else if (operator.equals("*"))
-					result = firstNumber * secondNumber;
-				else 
-					result = firstNumber / secondNumber;
 				
-//				switch(operator) {
-//				case "+":
-//					result = firstNumber + secondNumber;
-//					break;
-//				case "-":
-//					result = firstNumber - secondNumber;
-//					break;
-//				case "*":
-//					result = firstNumber * secondNumber;
-//				case "/":
-//					result = firstNumber / secondNumber;
-//				default:
-//				}
+				switch(operator) {
+				case "+":
+					result = firstNumber + secondNumber;
+					break;
+				case "-":
+					result = firstNumber - secondNumber;
+					break;
+				case "/":
+					result = firstNumber / secondNumber;
+					break;
+				case "*":
+					result = firstNumber * secondNumber;
+					break;
+				default:
+					try {
+						throw new NoSuchFieldException();
+					} catch (NoSuchFieldException e1) {
+						e1.printStackTrace();
+					}
+				}
 				
 				resultLabel.setText(String.valueOf(result));
 			}
