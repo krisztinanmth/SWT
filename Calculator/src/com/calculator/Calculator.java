@@ -5,6 +5,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -24,8 +25,11 @@ public class Calculator {
 		
 		Composite mainComposite = new Composite(shell, SWT.NONE);
 		mainComposite.setLayout(new GridLayout(5, false));
+		mainComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
-		Text textFirstNumber = new Text(mainComposite, SWT.BORDER);
+		Text textFirstNum = new Text(mainComposite, SWT.BORDER);
+		
+		// btn2.setLayoutData(new RowData(80, 30));
 		
 		Combo operatorDropDown = new Combo(mainComposite, SWT.DROP_DOWN | SWT.BORDER);
 		operatorDropDown.setItems(new String[] {"+", "-", "*", "/"});
@@ -37,7 +41,7 @@ public class Calculator {
 			}
 		});
 			
-		Text textSecondNumber = new Text(mainComposite, SWT.BORDER);
+		Text textSecondNum = new Text(mainComposite, SWT.BORDER);
 		
 		Label equalLabel = new Label(mainComposite, SWT.BORDER);
 		equalLabel.setText("=");
@@ -53,9 +57,14 @@ public class Calculator {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String operator = operatorDropDown.getText();
-				int result = 0;
-				int firstNumber = Integer.parseInt(textFirstNumber.getText());
-				int secondNumber = Integer.parseInt(textSecondNumber.getText());
+				if (operator.equals("+")) {
+					return;
+				}
+				double result = 0;
+//				int firstNumber = Integer.parseInt(textFirstNumber.getText());
+				double firstNumber = Double.parseDouble(textFirstNum.getText());
+//				int secondNumber = Integer.parseInt(textSecondNumber.getText());
+				double secondNumber = Double.parseDouble(textSecondNum.getText());
 				
 				switch(operator) {
 				case "+":
