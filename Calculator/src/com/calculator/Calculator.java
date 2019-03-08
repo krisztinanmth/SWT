@@ -3,6 +3,8 @@ package com.calculator;
 import java.util.Arrays;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
@@ -18,6 +20,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 public class Calculator {
+	
+	static String error = "only numbers are expected";
 	
 	enum Operator {
 		ADD("+"),
@@ -45,12 +49,32 @@ public class Calculator {
 		shell.setText("calculator");
 		centerWindow(shell);
 		
-		Composite mainComp = new Composite(shell, SWT.NONE);
+		GridData gridData = new GridData(100, 30);
+		
+		Composite mainComp = new Composite(shell, SWT.CENTER);
 		mainComp.setLayout(new GridLayout(5, false));
 		
+		Label errorLabel = new Label(shell, SWT.NONE);
+		errorLabel.setForeground(display.getSystemColor(SWT.COLOR_DARK_RED));
+		errorLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		
 		Text textFirstNum = new Text(mainComp, SWT.BORDER);
+		textFirstNum.setLayoutData(gridData);
+		textFirstNum.addModifyListener(new ModifyListener() {
+			@Override
+			public void modifyText(ModifyEvent e) {
+				Text text = (Text) e.widget;
+//				System.out.println(text.getText());
+				if (text.getText().length() == 0) {
+					errorLabel.setText("");
+				}else if (!isValid(text.getText())) {
+					errorLabel.setText(error);
+				}
+			}
+		});
 		
 		Combo opDropDown = new Combo(mainComp, SWT.DROP_DOWN | SWT.BORDER);
+		opDropDown.setLayoutData(gridData);
 		opDropDown.setItems(Arrays.stream(Operator.values()).map(Operator::getOperator).toArray(String[]::new));
 		
 		opDropDown.addSelectionListener(new SelectionAdapter() {
@@ -62,6 +86,19 @@ public class Calculator {
 		});
 			
 		Text textSecondNum = new Text(mainComp, SWT.BORDER);
+		textSecondNum.setLayoutData(gridData);
+		textSecondNum.addModifyListener(new ModifyListener() {
+			@Override
+			public void modifyText(ModifyEvent e) {
+				Text text = (Text) e.widget;
+//				System.out.println(text.getText());
+				if (text.getText().length() == 0) {
+					errorLabel.setText("");
+				}else if (!isValid(text.getText())) {
+					errorLabel.setText(error);
+				}
+			}
+		});
 		
 		Label equalLabel = new Label(mainComp, SWT.BORDER);
 		equalLabel.setText("=");
@@ -73,19 +110,17 @@ public class Calculator {
 		calculateBtn.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		calculateBtn.setText("calculate result");
 		
-		Label errorLabel = new Label(shell, SWT.NONE);
 		
 		calculateBtn.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String operator = opDropDown.getText();
-				if (!isValid(textFirstNum.getText(), textSecondNum.getText())) {
-//					String error = validateTextField(textFirstNum, textSecondNum);
-					String error = "only numbers are expected";
-					errorLabel.setText(error);
-					errorLabel.setForeground(display.getSystemColor(SWT.COLOR_DARK_RED));
-					return;
-				}
+//				String error = "only numbers are expected";
+//				if (!isValid(textFirstNum.getText(), textSecondNum.getText())) {
+////					String error = validateTextField(textFirstNum, textSecondNum);
+//					errorLabel.setText(error);
+//					return;
+//				} 
 				double result = 0;
 				double firstNumber = Double.parseDouble(textFirstNum.getText());
 				double secondNumber = Double.parseDouble(textSecondNum.getText());
@@ -112,7 +147,6 @@ public class Calculator {
 				}
 				
 				resultLabel.setText(String.valueOf(result));
-				
 			}
 		});
 		
@@ -127,9 +161,7 @@ public class Calculator {
 	}
 	
 	private static void centerWindow(Shell shell) {
-
 		Rectangle bds = shell.getDisplay().getBounds();
-		
 		Point p = shell.getSize();
 		
 		int nLeft = (bds.width - p.x) /2;
@@ -138,23 +170,23 @@ public class Calculator {
 		shell.setBounds(nLeft, nTop, p.x, p.y);
 	}
 	
+	
+	private static boolean isValid(String text1) {
+		return (text1.matches("[0-9]+"));
+	}
+	
 //	private static String validateTextField(Text textFirstNum, Text textSecondNum) {
 //		String s1 = String.valueOf(textFirstNum);
 //		String s2 = String.valueOf(textSecondNum);
 //		String errorMessage = "";
-////		if (("".equals(s1) || s1 == null) || ("".equals(s2) || s2 == null)) {
-////			errorMessage = "please fill in both fields";
-////		}
-////		else if((!s1.matches("[0-9]+") && s1.length() >= 1) || (!s2.matches("[0-9]+") && s2.length() >= 1)) {
+//		if (("".equals(s1) || s1 == null) || ("".equals(s2) || s2 == null)) {
+//			errorMessage = "please fill in both fields";
+//		}
+//		else if((!s1.matches("[0-9]+") && s1.length() >= 1) || (!s2.matches("[0-9]+") && s2.length() >= 1)) {
 //			errorMessage = "only numbers are expected";
 //		}
 //		return errorMessage;
 //	}
-	
-	private static boolean isValid(String text1, String text2) {
-		
-		return (text1.matches("[0-9]+") && text2.matches("[0-9]+"));
-	}
 	
 	public static void main(String[] args) {
 		createContent();
