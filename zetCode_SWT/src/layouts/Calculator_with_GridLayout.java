@@ -16,8 +16,10 @@ public class Calculator_with_GridLayout {
 	}
 
 	private void initUI(Display display) {
+		// With the SWT.DIALOG_TRIM flag, we make the window non-resizable.
 		Shell shell = new Shell(display, SWT.DIALOG_TRIM | SWT.CENTER);
 		
+		// We create a GridLayout with 4 columns and provide top and bottom margins.
 		GridLayout gL = new GridLayout(4, true);
 		gL.marginHeight = 5;
 		shell.setLayout(gL);
@@ -27,11 +29,17 @@ public class Calculator_with_GridLayout {
 		};
 		
 		Text text = new Text(shell, SWT.SINGLE);
+		// GridData is the layout data object associated with GridLayout. With
+		// the horizontalSpan property, we make the text widget span all four columns.
+		// The horizontalAlignment set to GridData.FILL makes the text widget fill the entire
+		// area allocated to it by the layout manager
 		GridData gd = new GridData();
 		gd.horizontalSpan = 4;
 		gd.horizontalAlignment = GridData.FILL;
 		text.setLayoutData(gd);
 		
+		// Inside the for loop, we create buttons and put them into the grid.
+		// With the widthHint and heightHint properties, we set the preferred size of the buttons.
 		for (int i = 0; i < buttons.length; i++) {
 			if (i == 2) {
 				Label lbl = new Label(shell, SWT.CENTER);
