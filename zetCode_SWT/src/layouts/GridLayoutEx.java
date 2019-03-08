@@ -25,6 +25,7 @@ public class GridLayoutEx {
 		shell.setLayout(gridLayout);
 		
 		Label lblOne = new Label(shell, SWT.NONE);
+		// The four parameters of the GridData class make the label component fill its cell and expand in both directions.
 		GridData gd1 = new GridData(SWT.FILL, SWT.FILL, true, true);
 		lblOne.setLayoutData(gd1);
 		
@@ -34,6 +35,8 @@ public class GridLayoutEx {
 		
 		Label lbl2 = new Label(shell, SWT.NONE);
 		GridData gd2 = new GridData(SWT.FILL, SWT.FILL, true, true);
+		// The heightHint property specifies the preferred height of the label. Note that it affects the previous widget as
+		// well, because the property effectively sets the preferred height of the row.
 		gd2.heightHint = 100;
 		lbl2.setLayoutData(gd2);
 		
@@ -45,6 +48,7 @@ public class GridLayoutEx {
 		GridData gd3 = new GridData(SWT.FILL, SWT.FILL, true, true);
 		gd3.widthHint = 300;
 		gd3.heightHint = 100;
+		// The horizontalSpan property makes the label span two columns.
 		gd3.horizontalSpan = 2;
 		lbl3.setLayoutData(gd3);
 		
