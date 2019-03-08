@@ -3,9 +3,9 @@ package com.calculator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -22,48 +22,47 @@ public class Calculator {
 		shell.setLayout(new GridLayout(1, true));
 		shell.setSize(300, 300);
 		shell.setText("calculator");
+		centerWindow(shell);
 		
-		Composite mainComposite = new Composite(shell, SWT.NONE);
-		mainComposite.setLayout(new GridLayout(5, false));
-		mainComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		Composite mainComp = new Composite(shell, SWT.NONE);
+		mainComp.setLayout(new GridLayout(5, false));
+//		mainComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
-		Text textFirstNum = new Text(mainComposite, SWT.BORDER);
+		Text textFirstNum = new Text(mainComp, SWT.BORDER);
 		
 		// btn2.setLayoutData(new RowData(80, 30));
 		
-		Combo operatorDropDown = new Combo(mainComposite, SWT.DROP_DOWN | SWT.BORDER);
-		operatorDropDown.setItems(new String[] {"+", "-", "*", "/"});
-		operatorDropDown.addSelectionListener(new SelectionAdapter() {
+		Combo opDropDown = new Combo(mainComp, SWT.DROP_DOWN | SWT.BORDER);
+		opDropDown.setItems(new String[] {"+", "-", "*", "/"});
+		opDropDown.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				String operator = operatorDropDown.getText();
-				operatorDropDown.setText(operator);
+				String operator = opDropDown.getText();
+				opDropDown.setText(operator);
 			}
 		});
 			
-		Text textSecondNum = new Text(mainComposite, SWT.BORDER);
+		Text textSecondNum = new Text(mainComp, SWT.BORDER);
 		
-		Label equalLabel = new Label(mainComposite, SWT.BORDER);
+		Label equalLabel = new Label(mainComp, SWT.BORDER);
 		equalLabel.setText("=");
 		
-		Label resultLabel = new Label(mainComposite, SWT.BORDER_SOLID);
+		Label resultLabel = new Label(mainComp, SWT.BORDER_SOLID);
 		resultLabel.setText("____________");
 		
-		Button calculateButton = new Button(shell, SWT.PUSH);
-		calculateButton.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		calculateButton.setText("calculate result");
+		Button calculateBtn = new Button(shell, SWT.PUSH);
+//		calculateButton.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		calculateBtn.setText("calculate result");
 		
-		calculateButton.addSelectionListener(new SelectionAdapter() {
+		calculateBtn.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				String operator = operatorDropDown.getText();
+				String operator = opDropDown.getText();
 				if (operator.equals("+")) {
 					return;
 				}
 				double result = 0;
-//				int firstNumber = Integer.parseInt(textFirstNumber.getText());
 				double firstNumber = Double.parseDouble(textFirstNum.getText());
-//				int secondNumber = Integer.parseInt(textSecondNumber.getText());
 				double secondNumber = Double.parseDouble(textSecondNum.getText());
 				
 				switch(operator) {
@@ -91,6 +90,13 @@ public class Calculator {
 			}
 		});
 		
+		
+		Label errorLabel = new Label(shell, SWT.NONE);
+		String error = validateTextField(textFirstNum, textSecondNum);
+		errorLabel.setText(error);
+		errorLabel.setForeground(display.getSystemColor(SWT.COLOR_DARK_RED));
+		
+		
 //		shell.pack(); -> this is why the window was small
 		shell.open();
 		
@@ -100,7 +106,31 @@ public class Calculator {
 			}
 		}
 		display.dispose();
+	}
+	
+	private static void centerWindow(Shell shell) {
 
+		Rectangle bds = shell.getDisplay().getBounds();
+		
+		Point p = shell.getSize();
+		
+		int nLeft = (bds.width - p.x) /2;
+		int nTop = (bds.height - p.y) /2;
+		
+		shell.setBounds(nLeft, nTop, p.x, p.y);
+	}
+	
+	private static String validateTextField(Text textFirstNum, Text textSecondNum) {
+		String s1 = String.valueOf(textFirstNum);
+		String s2 = String.valueOf(textSecondNum);
+		String errorMessage = "";
+		if (("".equals(s1) || s1 == null) || ("".equals(s2) || s2 == null)) {
+			errorMessage = "please provide two numbers";
+		}
+		else if(!s1.matches("[0-9]+") || !s2.matches("[0-9]+")) {
+			errorMessage = "only numbers are expected";
+		}
+		return errorMessage;
 	}
 	
 	public static void main(String[] args) {
