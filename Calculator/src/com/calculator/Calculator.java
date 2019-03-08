@@ -1,8 +1,6 @@
 package com.calculator;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -31,13 +29,14 @@ public class Calculator {
 		
 		Combo operatorDropDown = new Combo(mainComposite, SWT.DROP_DOWN | SWT.BORDER);
 		operatorDropDown.setItems(new String[] {"+", "-", "*", "/"});
-		
-		
-		
-//		
-//		Button addButton = new Button(mainComposite, SWT.NONE); // SWT.DROP-DOWN
-//		addButton.setText("+");
-		
+		operatorDropDown.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				String operator = operatorDropDown.getText();
+				operatorDropDown.setText(operator);
+			}
+		});
+			
 		Text textSecondNumber = new Text(mainComposite, SWT.BORDER);
 		
 		Label equalLabel = new Label(mainComposite, SWT.BORDER);
@@ -46,34 +45,6 @@ public class Calculator {
 		Label resultLabel = new Label(mainComposite, SWT.BORDER_SOLID);
 		resultLabel.setText("____________");
 		
-		operatorDropDown.addModifyListener(new ModifyListener() {
-			@Override
-			public void modifyText(ModifyEvent e) {
-				String operator = operatorDropDown.getText();
-				switch(operator) {
-				case "+":
-					System.out.println("you've chosen +");
-					break;
-				case "-":
-					System.out.println("you've chosen -");
-					break;
-				case "*":
-					System.out.println("you've chosen *");
-					break;
-				case "/":
-					System.out.println("you've chosen /");
-					break;
-				default:
-					System.out.println("choose an operator");
-					
-				}
-			}
-			
-		});
-		
-//		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, false);
-//		gridData.horizontalSpan = 2;
-		
 		Button calculateButton = new Button(shell, SWT.PUSH);
 		calculateButton.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		calculateButton.setText("calculate result");
@@ -81,8 +52,33 @@ public class Calculator {
 		calculateButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				int result = Integer.parseInt(textFirstNumber.getText()) + Integer.parseInt(textSecondNumber.getText());
-//				System.out.println(Integer.parseInt(textFirstNumber.getText()) + Integer.parseInt(textSecondNumber.getText()));
+				String operator = operatorDropDown.getText();
+				int result = 0;
+				int firstNumber = Integer.parseInt(textFirstNumber.getText());
+				int secondNumber = Integer.parseInt(textSecondNumber.getText());
+				if (operator.equals("+"))
+					result = firstNumber + secondNumber;
+				else if (operator.equals("-"))
+					result = firstNumber - secondNumber;
+				else if (operator.equals("*"))
+					result = firstNumber * secondNumber;
+				else 
+					result = firstNumber / secondNumber;
+				
+//				switch(operator) {
+//				case "+":
+//					result = firstNumber + secondNumber;
+//					break;
+//				case "-":
+//					result = firstNumber - secondNumber;
+//					break;
+//				case "*":
+//					result = firstNumber * secondNumber;
+//				case "/":
+//					result = firstNumber / secondNumber;
+//				default:
+//				}
+				
 				resultLabel.setText(String.valueOf(result));
 			}
 		});
@@ -98,8 +94,6 @@ public class Calculator {
 		display.dispose();
 
 	}
-	
-	
 	
 	public static void main(String[] args) {
 		createContent();
