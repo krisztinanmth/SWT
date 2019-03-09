@@ -37,6 +37,7 @@ public class Calculator {
 			return operator;
 		}
 	}
+	static List<String> error = new ArrayList<>();
 	
 	private static void createContent() {
 		Display display = new Display();
@@ -93,8 +94,11 @@ public class Calculator {
 				String operator = opDropDown.getText();
 				String s1 = textFirstNum.getText();
 				String s2 = textSecondNum.getText();
+				
+				
+				
 				if (!isValid(s1, s2)) {
-					List<String> error = new ArrayList<>();
+//					List<String> error = new ArrayList<>();
 					error = validateTextField(s1, s2);
 					errorLabel.setText(error.get(0));
 					return;
@@ -153,10 +157,12 @@ public class Calculator {
 	
 	private static List<String> validateTextField(String s1, String s2) {
 		List<String> error = new ArrayList<>();
-		if (s1 == null || s2 == null || s1.length() == 0 || s2.length() == 0) {
+		if (((s1 == null || s1.length() == 0) && (!s2.matches("[0-9]+"))) || ((s2 == null || s2.length() == 0) && (!s1.matches("[0-9]+")))) {
 			error.add("please fill in both fields");
-		} else if (!s1.matches("[0-9]+") || (!s2.matches("[0-9]+"))) {
+		} else if (s1 == null || s2 == null || s1.length() == 0 || s2.length() == 0) {
 			error.add("only numbers are accepted");
+		} else if (!s1.matches("[0-9]+") || (!s2.matches("[0-9]+"))) {
+			error.add("please fill in both fields, and only numbers are expected");
 		}
 		return error;
 	}
