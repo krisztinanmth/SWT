@@ -1,8 +1,6 @@
 package com.calculator;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -37,13 +35,12 @@ public class Calculator {
 			return operator;
 		}
 	}
-	static List<String> error = new ArrayList<>();
 	
 	private static void createContent() {
 		Display display = new Display();
 		Shell shell = new Shell(display);
 		shell.setLayout(new GridLayout(1, true));
-		shell.setSize(300, 300);
+//		shell.setSize(300, 300);
 		shell.setText("calculator");
 		centerWindow(shell);
 		
@@ -94,15 +91,19 @@ public class Calculator {
 				String operator = opDropDown.getText();
 				String s1 = textFirstNum.getText();
 				String s2 = textSecondNum.getText();
+//				List<String> error = new ArrayList<>();
+				String error = "";
 				
-				
-				
-				if (!isValid(s1, s2)) {
-//					List<String> error = new ArrayList<>();
-					error = validateTextField(s1, s2);
-					errorLabel.setText(error.get(0));
+				if ((s1 == null || s2 == null) || (s1.length() == 0 || s2.length() == 0)) {
+					error = "Please fill in both fields";
+					errorLabel.setText(error);
+					return;
+				} else if (!s1.matches("[0-9]+") || !s2.matches("[0-9]+")) {
+					error = "Only numbers are accepted";
+					errorLabel.setText(error);
 					return;
 				}
+
 				double result = 0;
 				double firstNumber = Double.parseDouble(textFirstNum.getText());
 				double secondNumber = Double.parseDouble(textSecondNum.getText());
@@ -150,23 +151,7 @@ public class Calculator {
 		
 		shell.setBounds(nLeft, nTop, p.x, p.y);
 	}
-	
-	private static boolean isValid(String s1, String s2) {
-		return ((s1.matches("[0-9]+")) && s2.matches("[0-9]+") && (s1 != null && s2 != null) && (s1.length() != 0 && s2.length() != 0));
-	}
-	
-	private static List<String> validateTextField(String s1, String s2) {
-		List<String> error = new ArrayList<>();
-		if (((s1 == null || s1.length() == 0) && (!s2.matches("[0-9]+"))) || ((s2 == null || s2.length() == 0) && (!s1.matches("[0-9]+")))) {
-			error.add("please fill in both fields");
-		} else if (s1 == null || s2 == null || s1.length() == 0 || s2.length() == 0) {
-			error.add("only numbers are accepted");
-		} else if (!s1.matches("[0-9]+") || (!s2.matches("[0-9]+"))) {
-			error.add("please fill in both fields, and only numbers are expected");
-		}
-		return error;
-	}
-	
+
 	public static void main(String[] args) {
 		createContent();
 	}
