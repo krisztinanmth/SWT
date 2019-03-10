@@ -24,7 +24,9 @@ public class EmptyTableEx {
         shell.setLayout(new GridLayout());
 
         Table table = new Table(shell, SWT.BORDER);
+        // setHeaderVisible() makes the table header visible
         table.setHeaderVisible(true);
+        // the setLinesVisible() displays the borders of the table cells... by default, the cells are not visible
         table.setLinesVisible(true);
 
         GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
