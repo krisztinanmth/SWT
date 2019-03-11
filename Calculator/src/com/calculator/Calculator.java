@@ -54,13 +54,13 @@ public class Calculator {
 		shell.setLayout(new GridLayout(1, true));
 		shell.setText("calculator");
 		centerWindow(shell);
-		createCalculatorComp(shell);
 
 		final GridData mainData = new GridData(SWT.FILL, SWT.FILL, true, false);
 		final Composite mainComp = new Composite(shell, SWT.NONE);
 		mainComp.setLayout(new GridLayout(1, true));
 		mainComp.setLayoutData(mainData);
 
+		createCalculatorComp(mainComp);
 		shell.open();
 
 		while (!shell.isDisposed()) {
