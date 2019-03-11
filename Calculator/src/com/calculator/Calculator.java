@@ -90,46 +90,22 @@ public class Calculator {
 		calculateBtn.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				String operator = opDropDown.getText();
-				String s1 = textFirstNum.getText();
-				String s2 = textSecondNum.getText();
+				final String firstText = textFirstNum.getText();
+				final String secondText = textSecondNum.getText();
 //				List<String> error = new ArrayList<>();
 				String error = "";
 				
-				if ((s1 == null || s2 == null) || (s1.length() == 0 || s2.length() == 0)) {
+				if ((firstText == null || secondText == null) || (firstText.length() == 0 || secondText.length() == 0)) {
 					error = "Please fill in both fields";
 					errorLabel.setText(error);
 					return;
-				} else if (!s1.matches("[0-9]+") || !s2.matches("[0-9]+")) {
+				} else if (!firstText.matches("[0-9]+") || !secondText.matches("[0-9]+")) {
 					error = "Only numbers are accepted";
 					errorLabel.setText(error);
 					return;
 				}
-
-				double result = 0;
-				double firstNumber = Double.parseDouble(textFirstNum.getText());
-				double secondNumber = Double.parseDouble(textSecondNum.getText());
 				
-				switch(operator) {
-				case "+":
-					result = firstNumber + secondNumber;
-					break;
-				case "-":
-					result = firstNumber - secondNumber;
-					break;
-				case "/":
-					result = firstNumber / secondNumber;
-					break;
-				case "*":
-					result = firstNumber * secondNumber;
-					break;
-				default:
-					try {
-						throw new NoSuchFieldException();
-					} catch (NoSuchFieldException e1) {
-						e1.printStackTrace();
-					}
-				}
+				double result = calculateResult(textFirstNum.getText(), textSecondNum.getText(), opDropDown.getText());
 				resultLabel.setText(String.valueOf(result));
 			}
 		});
@@ -141,6 +117,34 @@ public class Calculator {
 				display.sleep();
 			}
 		}
+	}
+	
+	private double calculateResult(String firstNumberText, String secondNumberText, String operator) {
+		double result = 0;
+		double firstNumber = Double.parseDouble(firstNumberText);
+		double secondNumber = Double.parseDouble(secondNumberText);
+		
+		switch(operator) {
+		case "+":
+			result = firstNumber + secondNumber;
+			break;
+		case "-":
+			result = firstNumber - secondNumber;
+			break;
+		case "/":
+			result = firstNumber / secondNumber;
+			break;
+		case "*":
+			result = firstNumber * secondNumber;
+			break;
+		default:
+			try {
+				throw new NoSuchFieldException();
+			} catch (NoSuchFieldException e1) {
+				e1.printStackTrace();
+			}
+		}
+		return result;
 	}
 	
 	private void centerWindow(Shell shell) {
