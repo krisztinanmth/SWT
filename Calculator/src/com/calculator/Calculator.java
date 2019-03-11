@@ -43,24 +43,36 @@ public class Calculator {
 	}
 	
 	private void createContent(Display display) {
+		
 		final Shell shell = new Shell(display);
 		shell.setLayout(new GridLayout(1, true));
 		shell.setText("calculator");
 		centerWindow(shell);
 		
-		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, false);
-		gridData.grabExcessHorizontalSpace = true;
-		gridData.grabExcessVerticalSpace = false;
+		final GridData gridDataCalcComp = new GridData(SWT.FILL, SWT.FILL, true, false);
+		gridDataCalcComp.grabExcessHorizontalSpace = true;
+		gridDataCalcComp.grabExcessVerticalSpace = false;
 		
-		final Composite mainComp = new Composite(shell, SWT.CENTER);
-		mainComp.setLayout(new GridLayout(5, false));
-//		mainComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		mainComp.setLayoutData(gridData);
+		final Composite calculatorComp = new Composite(shell, SWT.NONE);
+		calculatorComp.setLayout(new GridLayout(5, false));
+		calculatorComp.setLayoutData(gridDataCalcComp);
 		
-		final Text textFirstNum = new Text(mainComp, SWT.BORDER);
-		textFirstNum.setLayoutData(gridData);
+		final Composite errorMessageComp = new Composite(shell, SWT.NONE);
+		errorMessageComp.setLayout(new GridLayout(1, true));
+		errorMessageComp.setLayoutData(gridDataCalcComp);
+		
+		final GridData gridDataCalcBtnComp = new GridData(SWT.FILL, SWT.FILL, true, false);
+//		gridDataCalcBtnComp.grabExcessHorizontalSpace = true;  how to make button long as before ?
+//		gridDataCalcBtnComp.grabExcessVerticalSpace = false;
+		
+		final Composite calculateBtnComp = new Composite(shell, SWT.NONE); 
+		calculateBtnComp.setLayout(new GridLayout(1, false));
+		calculateBtnComp.setLayoutData(gridDataCalcBtnComp);
+		
+		final Text textFirstNum = new Text(calculatorComp, SWT.BORDER);
+		textFirstNum.setLayoutData(gridDataCalcComp);
 
-		final Combo opDropDown = new Combo(mainComp, SWT.DROP_DOWN | SWT.BORDER);
+		final Combo opDropDown = new Combo(calculatorComp, SWT.DROP_DOWN | SWT.BORDER);
 		opDropDown.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 		opDropDown.setItems(Arrays.stream(Operator.values()).map(Operator::getOperator).toArray(String[]::new));
 		opDropDown.select(0);
@@ -73,23 +85,20 @@ public class Calculator {
 			}
 		});
 			
-		final Text textSecondNum = new Text(mainComp, SWT.BORDER);
-		textSecondNum.setLayoutData(gridData);
+		final Text textSecondNum = new Text(calculatorComp, SWT.BORDER);
+		textSecondNum.setLayoutData(gridDataCalcComp);
 		
-		final Label equalLabel = new Label(mainComp, SWT.BORDER);
+		final Label equalLabel = new Label(calculatorComp, SWT.BORDER);
 		equalLabel.setText("=");
 		
-		final Label resultLabel = new Label(mainComp, SWT.BORDER_SOLID);
+		final Label resultLabel = new Label(calculatorComp, SWT.BORDER_SOLID);
 		resultLabel.setText("____________");
 		
-		final Label errorLabel = new Label(mainComp, SWT.NONE);
+		final Label errorLabel = new Label(errorMessageComp, SWT.NONE);
 		errorLabel.setForeground(display.getSystemColor(SWT.COLOR_DARK_RED));
-//		errorLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		errorLabel.setLayoutData(gridData);
+		errorLabel.setLayoutData(gridDataCalcComp);
 		
-		final Button calculateBtn = new Button(mainComp, SWT.PUSH);
-//		calculateBtn.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		calculateBtn.setLayoutData(gridData);
+		final Button calculateBtn = new Button(calculateBtnComp, SWT.PUSH);
 		calculateBtn.setText("calculate result");
 		
 		calculateBtn.addSelectionListener(new SelectionAdapter() {
@@ -114,6 +123,7 @@ public class Calculator {
 			}
 		});
 		
+//		shell.pack();
 		shell.open();
 		
 		while (!shell.isDisposed()) {
@@ -142,11 +152,7 @@ public class Calculator {
 			result = firstNumber * secondNumber;
 			break;
 		default:
-			try {
-				throw new NoSuchFieldException();
-			} catch (NoSuchFieldException e1) {
-				e1.printStackTrace();
-			}
+			result = 0;
 		}
 		return result;
 	}
