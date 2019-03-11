@@ -36,11 +36,13 @@ public class Calculator {
 		}
 	}
 	
-	private static void createContent() {
-		Display display = new Display();
+	public Calculator(Display display) {
+		createContent(display);
+	}
+	
+	private void createContent(Display display) {
 		Shell shell = new Shell(display);
 		shell.setLayout(new GridLayout(1, true));
-//		shell.setSize(300, 300);
 		shell.setText("calculator");
 		centerWindow(shell);
 		
@@ -77,11 +79,11 @@ public class Calculator {
 		Label resultLabel = new Label(mainComp, SWT.BORDER_SOLID);
 		resultLabel.setText("____________");
 		
-		Label errorLabel = new Label(shell, SWT.NONE);
+		Label errorLabel = new Label(mainComp, SWT.NONE);
 		errorLabel.setForeground(display.getSystemColor(SWT.COLOR_DARK_RED));
 		errorLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
-		Button calculateBtn = new Button(shell, SWT.PUSH);
+		Button calculateBtn = new Button(mainComp, SWT.PUSH);
 		calculateBtn.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		calculateBtn.setText("calculate result");
 		
@@ -139,10 +141,9 @@ public class Calculator {
 				display.sleep();
 			}
 		}
-		display.dispose();
 	}
 	
-	private static void centerWindow(Shell shell) {
+	private void centerWindow(Shell shell) {
 		Rectangle bds = shell.getDisplay().getBounds();
 		Point p = shell.getSize();
 		
@@ -152,8 +153,12 @@ public class Calculator {
 		shell.setBounds(nLeft, nTop, p.x, p.y);
 	}
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
-		createContent();
+//		createContent();
+		Display display = new Display();
+		Calculator calculator = new Calculator(display);
+		display.dispose();
 	}
 
 }
