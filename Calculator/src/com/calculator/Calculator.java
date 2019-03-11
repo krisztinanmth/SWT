@@ -40,6 +40,13 @@ enum Operator {
 
 public class Calculator {
 	
+	private Text textFirstNum;
+	private Combo opDropDown;
+	private Text textSecondNum;
+	private Label equalLabel;
+	private Label resultLabel;
+	private Label errorLabel;
+	private Button calculateBtn;
 	
 	public Calculator() {
 		createUI();
@@ -93,10 +100,10 @@ public class Calculator {
 		calculatorComp.setLayout(new GridLayout(5, false));
 		calculatorComp.setLayoutData(mainData);
 		
-		final Text textFirstNum = new Text(calculatorComp, SWT.BORDER);
+		textFirstNum = new Text(calculatorComp, SWT.BORDER);
 		textFirstNum.setLayoutData(mainData);
 
-		final Combo opDropDown = new Combo(calculatorComp, SWT.DROP_DOWN | SWT.BORDER);
+		opDropDown = new Combo(calculatorComp, SWT.DROP_DOWN | SWT.BORDER);
 		opDropDown.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 		opDropDown.setItems(Arrays.stream(Operator.values()).map(Operator::getOperator).toArray(String[]::new));
 		opDropDown.select(0);
@@ -109,71 +116,73 @@ public class Calculator {
 			}
 		});
 		
-		final Text textSecondNum = new Text(calculatorComp, SWT.BORDER);
+		textSecondNum = new Text(calculatorComp, SWT.BORDER);
 		textSecondNum.setLayoutData(mainData);
 		
-		final Label equalLabel = new Label(calculatorComp, SWT.BORDER);
+		equalLabel = new Label(calculatorComp, SWT.BORDER);
 		equalLabel.setText("=");
 		
-		final Label resultLabel = new Label(calculatorComp, SWT.BORDER_SOLID);
+		resultLabel = new Label(calculatorComp, SWT.BORDER_SOLID);
 		resultLabel.setText("____________");
 		
-		createErrorMessageComp(mainComp, textFirstNum, textSecondNum, opDropDown, resultLabel);
+		createErrorMessageComp(mainComp);
+		createCalculateBtnComp(mainComp);
 	}
 	
-	private void createErrorMessageComp(Composite mainComp, Text textFirstNum, Text textSecondNum, Combo opDropDown, Label resultLabel) {
+	private void createErrorMessageComp(Composite mainComp) {
 		final GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, false);
 		final Composite errorMessageComp = new Composite(mainComp, SWT.NONE);
 		errorMessageComp.setLayout(new GridLayout(1, true));
 		errorMessageComp.setLayoutData(gridData);
 		
-		final Label errorLabel = new Label(errorMessageComp, SWT.NONE);
-		
 		final Color errorColor = new Color(errorMessageComp.getDisplay(), 139, 0, 0);
-		errorLabel.setForeground(errorColor);
-		errorLabel.addDisposeListener(new DisposeListener() {
-
-			@Override
-			public void widgetDisposed(DisposeEvent e) {
-				errorColor.dispose();
-			}
-			
-		});
 		
-		createCalculateBtnComp(mainComp, errorLabel, textFirstNum, textSecondNum, opDropDown, resultLabel);
-		
+		errorLabel = new Label(errorMessageComp, SWT.NONE);
+		if (errorLabel != null) {
+			errorLabel.setForeground(errorColor);
+			errorLabel.addDisposeListener(new DisposeListener() {
+				
+				@Override
+				public void widgetDisposed(DisposeEvent e) {
+					errorColor.dispose();
+				}
+				
+			});
+		}
 	}
 	
-	private void createCalculateBtnComp(Composite mainComp, Label errorLabel, Text textFirstNum, Text textSecondNum, Combo opDropDown, Label resultLabel) {
+	private void createCalculateBtnComp(Composite mainComp) {
 		final GridData gridDataCalcBtnComp = new GridData(SWT.FILL, SWT.FILL, true, false);
 		final Composite calculateBtnComp = new Composite(mainComp, SWT.NONE); 
 		calculateBtnComp.setLayout(new GridLayout(1, false));
 		calculateBtnComp.setLayoutData(gridDataCalcBtnComp);
 		
-		final Button calculateBtn = new Button(calculateBtnComp, SWT.PUSH);
-		calculateBtn.setText("calculate result");
-		
-		calculateBtn.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				final String firstText = textFirstNum.getText();
-				final String secondText = textSecondNum.getText();
-				String error = "";
-				
-				if ((firstText == null || secondText == null) || (firstText.length() == 0 || secondText.length() == 0)) {
-					error = "Please fill in both fields";
-					errorLabel.setText(error);
-					return;
-				} else if (!firstText.matches("[0-9]+") || !secondText.matches("[0-9]+")) {
-					error = "Only numbers are accepted";
-					errorLabel.setText(error);
-					return;
+		calculateBtn = new Button(calculateBtnComp, SWT.PUSH);
+		if (calculateBtn != null) {
+			calculateBtn.setText("calculate result");
+			
+			calculateBtn.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					final String firstText = textFirstNum.getText();
+					final String secondText = textSecondNum.getText();
+					String error = "";
+					
+					if ((firstText == null || secondText == null) || (firstText.length() == 0 || secondText.length() == 0)) {
+						error = "Please fill in both fields";
+						errorLabel.setText(error);
+						return;
+					} else if (!firstText.matches("[0-9]+") || !secondText.matches("[0-9]+")) {
+						error = "Only numbers are accepted";
+						errorLabel.setText(error);
+						return;
+					}
+					
+					double result = calculateResult(textFirstNum.getText(), textSecondNum.getText(), opDropDown.getText());
+					resultLabel.setText(String.valueOf(result));
 				}
-				
-				double result = calculateResult(textFirstNum.getText(), textSecondNum.getText(), opDropDown.getText());
-				resultLabel.setText(String.valueOf(result));
-			}
-		});
+			});
+		}
 	}
 	
 	private double calculateResult(String firstNumberText, String secondNumberText, String operator) {
