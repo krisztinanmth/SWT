@@ -3,8 +3,6 @@ package com.calculator;
 import java.util.Arrays;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
@@ -20,26 +18,22 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-
 enum Operator {
-	ADD("+"),
-	SUBSTRACT("-"),
-	MULTIPLY("*"),
-	DIVIDE("/");
-	
+	ADD("+"), SUBSTRACT("-"), MULTIPLY("*"), DIVIDE("/");
+
 	private String operator;
-	
+
 	private Operator(String operator) {
 		this.operator = operator;
 	}
-	
+
 	public String getOperator() {
 		return operator;
 	}
 }
 
 public class Calculator {
-	
+
 	private Text textFirstNum;
 	private Combo opDropDown;
 	private Text textSecondNum;
@@ -47,59 +41,46 @@ public class Calculator {
 	private Label resultLabel;
 	private Label errorLabel;
 	private Button calculateBtn;
-	
+	private Color errorColor;
+
 	public Calculator() {
 		createUI();
 	}
-	
+
 	private void createUI() {
-		
+
 		final Display display = new Display();
 		final Shell shell = new Shell(display);
 		shell.setLayout(new GridLayout(1, true));
 		shell.setText("calculator");
 		centerWindow(shell);
 		createCalculatorComp(shell);
-		
+
 		final GridData mainData = new GridData(SWT.FILL, SWT.FILL, true, false);
-		mainData.grabExcessHorizontalSpace = true;
-		mainData.grabExcessVerticalSpace = false;
-		
 		final Composite mainComp = new Composite(shell, SWT.NONE);
 		mainComp.setLayout(new GridLayout(1, true));
 		mainComp.setLayoutData(mainData);
-		
+
 		shell.open();
-		
+
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();
 			}
 		}
+		if (errorColor != null) {
+			errorColor.dispose();
+		}
 		display.dispose();
-		mainComp.dispose();
 	}
-	
-	private void centerWindow(Shell shell) {
-		Rectangle bds = shell.getDisplay().getBounds();
-		Point p = shell.getSize();
-		
-		int nLeft = (bds.width - p.x) /2;
-		int nTop = (bds.height - p.y) /2;
-		
-		shell.setBounds(nLeft, nTop, p.x, p.y);
-	}
-	
+
 	private void createCalculatorComp(Composite mainComp) {
-		
+
 		final GridData mainData = new GridData(SWT.FILL, SWT.FILL, true, false);
-		mainData.grabExcessHorizontalSpace = true;
-		mainData.grabExcessVerticalSpace = false;
-		
 		final Composite calculatorComp = new Composite(mainComp, SWT.NONE);
 		calculatorComp.setLayout(new GridLayout(5, false));
 		calculatorComp.setLayoutData(mainData);
-		
+
 		textFirstNum = new Text(calculatorComp, SWT.BORDER);
 		textFirstNum.setLayoutData(mainData);
 
@@ -107,7 +88,7 @@ public class Calculator {
 		opDropDown.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 		opDropDown.setItems(Arrays.stream(Operator.values()).map(Operator::getOperator).toArray(String[]::new));
 		opDropDown.select(0);
-		
+
 		opDropDown.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -115,68 +96,55 @@ public class Calculator {
 				opDropDown.setText(operator);
 			}
 		});
-		
+
 		textSecondNum = new Text(calculatorComp, SWT.BORDER);
 		textSecondNum.setLayoutData(mainData);
-		
+
 		equalLabel = new Label(calculatorComp, SWT.BORDER);
 		equalLabel.setText("=");
-		
-		resultLabel = new Label(calculatorComp, SWT.BORDER_SOLID);
+
+		resultLabel = new Label(calculatorComp, SWT.NONE);
 		resultLabel.setText("____________");
-		
+
 		createErrorMessageComp(mainComp);
 		createCalculateBtnComp(mainComp);
 	}
-	
+
 	private void createErrorMessageComp(Composite mainComp) {
-		final GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, false);
+		final GridData gridDataErrMess = new GridData(SWT.FILL, SWT.FILL, true, false);
 		final Composite errorMessageComp = new Composite(mainComp, SWT.NONE);
 		errorMessageComp.setLayout(new GridLayout(1, true));
-		errorMessageComp.setLayoutData(gridData);
-		
+		errorMessageComp.setLayoutData(gridDataErrMess);
+
 		errorLabel = new Label(errorMessageComp, SWT.NONE);
-		errorLabel.setText("");
-		errorLabel.setLayoutData(gridData);
-		
 		if (errorLabel != null) {
-			final Color errorColor = new Color(errorMessageComp.getDisplay(), 139, 0, 0);
+			errorLabel.setLayoutData(gridDataErrMess);
+			errorColor = new Color(errorMessageComp.getDisplay(), 139, 0, 0);
 			errorLabel.setForeground(errorColor);
-			errorLabel.addDisposeListener(new DisposeListener() {
-				
-				@Override
-				public void widgetDisposed(DisposeEvent e) {
-					errorColor.dispose();
-				}
-				
-			});
 		}
 	}
-	
+
 	private void createCalculateBtnComp(Composite mainComp) {
-		final GridData gridDataCalcBtnComp = new GridData(SWT.FILL, SWT.FILL, true, false);
-		
-		// nem mukodik..... nem lesz hosszu a button... se responsive
-		gridDataCalcBtnComp.grabExcessHorizontalSpace = true;
-		gridDataCalcBtnComp.horizontalAlignment = SWT.FILL;
-		
-		final Composite calculateBtnComp = new Composite(mainComp, SWT.NONE); 
+		final GridData gridDataCalBtn = new GridData(SWT.FILL, SWT.FILL, true, false);
+		final Composite calculateBtnComp = new Composite(mainComp, SWT.NONE);
 		calculateBtnComp.setLayout(new GridLayout(1, true));
-		calculateBtnComp.setLayoutData(gridDataCalcBtnComp);
-		
+		calculateBtnComp.setLayoutData(gridDataCalBtn);
+
 		calculateBtn = new Button(calculateBtnComp, SWT.PUSH);
-		
+		calculateBtn.setLayoutData(gridDataCalBtn);
+
 		if (calculateBtn != null) {
 			calculateBtn.setText("calculate result");
-			
 			calculateBtn.addSelectionListener(new SelectionAdapter() {
+
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					final String firstText = textFirstNum.getText();
 					final String secondText = textSecondNum.getText();
 					String error = "";
-					
-					if ((firstText == null || secondText == null) || (firstText.length() == 0 || secondText.length() == 0)) {
+
+					if ((firstText == null || secondText == null)
+							|| (firstText.length() == 0 || secondText.length() == 0)) {
 						error = "Please fill in both fields";
 						errorLabel.setText(error);
 						return;
@@ -185,20 +153,21 @@ public class Calculator {
 						errorLabel.setText(error);
 						return;
 					}
-					
-					double result = calculateResult(textFirstNum.getText(), textSecondNum.getText(), opDropDown.getText());
+
+					double result = calculateResult(textFirstNum.getText(), textSecondNum.getText(),
+							opDropDown.getText());
 					resultLabel.setText(String.valueOf(result));
 				}
 			});
 		}
 	}
-	
+
 	private double calculateResult(String firstNumberText, String secondNumberText, String operator) {
 		double result = 0;
 		double firstNumber = Double.parseDouble(firstNumberText);
 		double secondNumber = Double.parseDouble(secondNumberText);
-		
-		switch(operator) {
+
+		switch (operator) {
 		case "+":
 			result = firstNumber + secondNumber;
 			break;
@@ -215,6 +184,14 @@ public class Calculator {
 			result = 0;
 		}
 		return result;
+	}
+
+	private void centerWindow(Shell shell) {
+		Rectangle bds = shell.getDisplay().getBounds();
+		Point p = shell.getSize();
+		int nLeft = (bds.width - p.x) / 2;
+		int nTop = (bds.height - p.y) / 2;
+		shell.setBounds(nLeft, nTop, p.x, p.y);
 	}
 
 	@SuppressWarnings("unused")
