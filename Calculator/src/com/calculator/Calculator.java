@@ -41,7 +41,7 @@ public class Calculator {
 	}
 	
 	private void createContent(Display display) {
-		Shell shell = new Shell(display);
+		final Shell shell = new Shell(display);
 		shell.setLayout(new GridLayout(1, true));
 		shell.setText("calculator");
 		centerWindow(shell);
@@ -50,14 +50,14 @@ public class Calculator {
 		gridData.grabExcessHorizontalSpace = true;
 		gridData.grabExcessVerticalSpace = false;
 		
-		Composite mainComp = new Composite(shell, SWT.CENTER);
+		final Composite mainComp = new Composite(shell, SWT.CENTER);
 		mainComp.setLayout(new GridLayout(5, false));
 		mainComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
-		Text textFirstNum = new Text(mainComp, SWT.BORDER);
+		final Text textFirstNum = new Text(mainComp, SWT.BORDER);
 		textFirstNum.setLayoutData(gridData);
 
-		Combo opDropDown = new Combo(mainComp, SWT.DROP_DOWN | SWT.BORDER);
+		final Combo opDropDown = new Combo(mainComp, SWT.DROP_DOWN | SWT.BORDER);
 		opDropDown.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 		opDropDown.setItems(Arrays.stream(Operator.values()).map(Operator::getOperator).toArray(String[]::new));
 		opDropDown.select(0);
@@ -70,20 +70,20 @@ public class Calculator {
 			}
 		});
 			
-		Text textSecondNum = new Text(mainComp, SWT.BORDER);
+		final Text textSecondNum = new Text(mainComp, SWT.BORDER);
 		textSecondNum.setLayoutData(gridData);
 		
-		Label equalLabel = new Label(mainComp, SWT.BORDER);
+		final Label equalLabel = new Label(mainComp, SWT.BORDER);
 		equalLabel.setText("=");
 		
-		Label resultLabel = new Label(mainComp, SWT.BORDER_SOLID);
+		final Label resultLabel = new Label(mainComp, SWT.BORDER_SOLID);
 		resultLabel.setText("____________");
 		
-		Label errorLabel = new Label(mainComp, SWT.NONE);
+		final Label errorLabel = new Label(mainComp, SWT.NONE);
 		errorLabel.setForeground(display.getSystemColor(SWT.COLOR_DARK_RED));
 		errorLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
-		Button calculateBtn = new Button(mainComp, SWT.PUSH);
+		final Button calculateBtn = new Button(mainComp, SWT.PUSH);
 		calculateBtn.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		calculateBtn.setText("calculate result");
 		
@@ -160,7 +160,7 @@ public class Calculator {
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 //		createContent();
-		Display display = new Display();
+		final Display display = new Display();
 		Calculator calculator = new Calculator(display);
 		display.dispose();
 	}
