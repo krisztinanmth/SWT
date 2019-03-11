@@ -58,7 +58,6 @@ public class Calculator {
 		final Shell shell = new Shell(display);
 		shell.setLayout(new GridLayout(1, true));
 		shell.setText("calculator");
-//		shell.setSize(700, 400);
 		centerWindow(shell);
 		createCalculatorComp(shell);
 		
@@ -78,6 +77,7 @@ public class Calculator {
 			}
 		}
 		display.dispose();
+		mainComp.dispose();
 	}
 	
 	private void centerWindow(Shell shell) {
@@ -135,10 +135,12 @@ public class Calculator {
 		errorMessageComp.setLayout(new GridLayout(1, true));
 		errorMessageComp.setLayoutData(gridData);
 		
-		final Color errorColor = new Color(errorMessageComp.getDisplay(), 139, 0, 0);
-		
 		errorLabel = new Label(errorMessageComp, SWT.NONE);
+		errorLabel.setText("");
+		errorLabel.setLayoutData(gridData);
+		
 		if (errorLabel != null) {
+			final Color errorColor = new Color(errorMessageComp.getDisplay(), 139, 0, 0);
 			errorLabel.setForeground(errorColor);
 			errorLabel.addDisposeListener(new DisposeListener() {
 				
@@ -153,11 +155,17 @@ public class Calculator {
 	
 	private void createCalculateBtnComp(Composite mainComp) {
 		final GridData gridDataCalcBtnComp = new GridData(SWT.FILL, SWT.FILL, true, false);
+		
+		// nem mukodik..... nem lesz hosszu a button... se responsive
+		gridDataCalcBtnComp.grabExcessHorizontalSpace = true;
+		gridDataCalcBtnComp.horizontalAlignment = SWT.FILL;
+		
 		final Composite calculateBtnComp = new Composite(mainComp, SWT.NONE); 
-		calculateBtnComp.setLayout(new GridLayout(1, false));
+		calculateBtnComp.setLayout(new GridLayout(1, true));
 		calculateBtnComp.setLayoutData(gridDataCalcBtnComp);
 		
 		calculateBtn = new Button(calculateBtnComp, SWT.PUSH);
+		
 		if (calculateBtn != null) {
 			calculateBtn.setText("calculate result");
 			
