@@ -17,24 +17,26 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+
+enum Operator {
+	ADD("+"),
+	SUBSTRACT("-"),
+	MULTIPLY("*"),
+	DIVIDE("/");
+	
+	private String operator;
+	
+	private Operator(String operator) {
+		this.operator = operator;
+	}
+	
+	public String getOperator() {
+		return operator;
+	}
+}
+
 public class Calculator {
 	
-	enum Operator {
-		ADD("+"),
-		SUBSTRACT("-"),
-		MULTIPLY("*"),
-		DIVIDE("/");
-
-		private String operator;
-		
-		private Operator(String operator) {
-			this.operator = operator;
-		}
-		
-		public String getOperator() {
-			return operator;
-		}
-	}
 	
 	public Calculator(Display display) {
 		createContent(display);
@@ -52,7 +54,8 @@ public class Calculator {
 		
 		final Composite mainComp = new Composite(shell, SWT.CENTER);
 		mainComp.setLayout(new GridLayout(5, false));
-		mainComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+//		mainComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		mainComp.setLayoutData(gridData);
 		
 		final Text textFirstNum = new Text(mainComp, SWT.BORDER);
 		textFirstNum.setLayoutData(gridData);
@@ -81,10 +84,12 @@ public class Calculator {
 		
 		final Label errorLabel = new Label(mainComp, SWT.NONE);
 		errorLabel.setForeground(display.getSystemColor(SWT.COLOR_DARK_RED));
-		errorLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+//		errorLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		errorLabel.setLayoutData(gridData);
 		
 		final Button calculateBtn = new Button(mainComp, SWT.PUSH);
-		calculateBtn.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+//		calculateBtn.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		calculateBtn.setLayoutData(gridData);
 		calculateBtn.setText("calculate result");
 		
 		calculateBtn.addSelectionListener(new SelectionAdapter() {
@@ -92,7 +97,6 @@ public class Calculator {
 			public void widgetSelected(SelectionEvent e) {
 				final String firstText = textFirstNum.getText();
 				final String secondText = textSecondNum.getText();
-//				List<String> error = new ArrayList<>();
 				String error = "";
 				
 				if ((firstText == null || secondText == null) || (firstText.length() == 0 || secondText.length() == 0)) {
